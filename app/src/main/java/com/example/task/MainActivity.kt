@@ -3,33 +3,32 @@ package com.example.task
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import kotlin.math.pow
 
 class MainActivity : Activity() {
     companion object{
         const val VARIABLE_NAME = "VARIABLE"
     }
-    private var count = 0
 
-    private lateinit var numTextView: TextView
-    private lateinit var startSecondActivityButton: Button
+    private lateinit var numberTextView: TextView
+    private lateinit var secondActivityButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
+        Log.d("INFO", "onCreate")
         setContentView(R.layout.activity_main)
-        numTextView = findViewById(R.id.num_text_view)
-        startSecondActivityButton = findViewById(R.id.start_second_activity_button)
-        count = (savedInstanceState?.get(VARIABLE_NAME) ?: 0).toString().toInt()
-        numTextView.text = count.toString()
-        startSecondActivityButton.setOnClickListener {
+        numberTextView = findViewById(R.id.number_text_view)
+        secondActivityButton = findViewById(R.id.second_activity_button_id)
+        numberTextView.text = (savedInstanceState?.get(VARIABLE_NAME) ?: 0).toString().toInt().toString()
+        secondActivityButton.setOnClickListener {
             val intent = Intent(
                 this,
                 SecondActivity::class.java
             ).apply {
-                putExtra(VARIABLE_NAME, count * count)
+                putExtra(VARIABLE_NAME, numberTextView.text.toString().toDouble().pow(2).toInt())
             }
             startActivity(intent)
         }
@@ -37,40 +36,40 @@ class MainActivity : Activity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        count = savedInstanceState.getInt(VARIABLE_NAME)
-        numTextView.text = count.toString()
-        //logger.log("RestoreInstanceState")
+        numberTextView.text = savedInstanceState.getInt(VARIABLE_NAME).toString()
+        Log.d("INFO", "onRestoreInstanceState")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        count+=1
-        outState.putInt(VARIABLE_NAME, count)
+        outState.putInt(VARIABLE_NAME, numberTextView.text.toString().toInt()+1)
         super.onSaveInstanceState(outState)
+        Log.d("INFO","onSaveInstanceState")
     }
 
     override fun onStart() {
         super.onStart()
-        //logger.log("Start")
+        Log.d("INFO", "onStart")
     }
 
     override fun onResume() {
         super.onResume()
-        //logger.log("Resume")
+        Log.d("INFO", "onResume")
 
     }
 
     override fun onPause() {
         super.onPause()
-        //logger.log("Pause")
+        Log.d("INFO", "onPause")
+
     }
 
     override fun onStop() {
         super.onStop()
-        //logger.log("Stop")
+        Log.d("INFO", "onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        //logger.log("Destroy")
+        Log.d("INFO", "onDestroy")
     }
 }
