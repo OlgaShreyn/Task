@@ -31,7 +31,6 @@ class SecondActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.d("INFO","SecondActivity onResume")
-
     }
 
     override fun onPause() {
